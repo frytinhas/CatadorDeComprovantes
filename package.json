@@ -1,0 +1,21 @@
+{
+  "name": "luizbot",
+  "version": "1.0.0",
+  "description": "Bot local Discord + Gmail para validar comprovantes Pix e disparar .cs.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.9.1",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "googleapis": "^144.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
