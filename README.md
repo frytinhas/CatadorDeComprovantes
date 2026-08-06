@@ -1,15 +1,15 @@
-# LuizBot
+# Catador de Comprovantes
 
-LuizBot e um aplicativo local que confere comprovantes Pix recebidos no Gmail e libera uma fila no Discord. Quando encontra um comprovante compativel, ele envia o comando configurado no canal, por padrao `.cs`.
+Catador de Comprovantes e um aplicativo local que confere comprovantes Pix recebidos no Gmail e libera uma fila no Discord. Quando encontra um comprovante compativel, ele envia o comando configurado no canal, por padrao `.cs`.
 
 Ele roda no proprio computador do operador. Nao existe servidor externo: o computador, o processo Node.js e a conexao com a internet precisam permanecer ativos enquanto o bot estiver em uso.
 
 ## Como o bot funciona
 
 1. Um bot externo publica uma mensagem no canal de filas do Discord, com nome do cliente, valor esperado e chave Pix do mediador.
-2. LuizBot le essa mensagem, extrai os tres dados pelas regexes configuradas e registra o pedido como pendente no banco local.
+2. Catador de Comprovantes le essa mensagem, extrai os tres dados pelas regexes configuradas e registra o pedido como pendente no banco local.
 3. O cliente envia `pg Nome Sobrenome` ou `pago Nome Sobrenome` no mesmo canal.
-4. LuizBot procura no Gmail comprovantes recentes, dentro da janela configurada.
+4. Catador de Comprovantes procura no Gmail comprovantes recentes, dentro da janela configurada.
 5. Para aprovar, o comprovante precisa conter o nome, a chave Pix e um valor maior ou igual ao pedido.
 6. O comprovante e marcado como usado, o pedido e consumido e o bot envia `.cs` (ou o texto definido em **Comando enviado ao aprovar**).
 
@@ -41,7 +41,7 @@ PORT=3000
 DATA_DIR=./data
 ```
 
-Por padrao, os dados ficam em `data/luizbot.sqlite`. Esse arquivo contem configuracao e tokens locais; faca backup periodicamente e nao o compartilhe.
+Por padrao, os dados ficam em `data/catador-de-comprovantes.sqlite`. Esse arquivo contem configuracao e tokens locais; faca backup periodicamente e nao o compartilhe.
 
 ## Iniciar e parar
 
@@ -63,12 +63,12 @@ Abra o painel local e preencha os campos abaixo. Ao salvar, o cliente Discord e 
 
 | Campo | O que informar | Para que serve |
 | --- | --- | --- |
-| Token do bot Discord | Token da pagina **Bot** no Developer Portal | Autentica LuizBot no Discord. |
+| Token do bot Discord | Token da pagina **Bot** no Developer Portal | Autentica o Catador de Comprovantes no Discord. |
 | ID do servidor | ID numerico do servidor Discord | Limita o bot a esse servidor. |
 | ID do canal de filas | ID numerico do canal monitorado | Canal que recebe os pedidos e comandos `pg`/`pago`. |
 | ID do administrador | ID numerico do operador, se desejar registrar | Reservado para uso futuro; hoje nao concede acesso ou permissao extra. |
 | ID do bot externo | ID numerico do bot que publica pedidos | Somente as mensagens desse bot sao tratadas como pedidos. |
-| Comando enviado ao aprovar | Normalmente `.cs` | Texto que LuizBot envia depois de validar o comprovante. |
+| Comando enviado ao aprovar | Normalmente `.cs` | Texto que o Catador de Comprovantes envia depois de validar o comprovante. |
 | Google Client ID | Client ID da credencial OAuth 2.0 | Identifica o app no Google. |
 | Google Client Secret | Client Secret da mesma credencial | Permite concluir a autorizacao OAuth. |
 | Janela de comprovantes em horas | De 1 a 24 | Define por quantas horas emails anteriores sao considerados. |
@@ -114,10 +114,10 @@ Nao use uma regex que capture a linha de valor ou Pix junto com o nome. Depois d
 
 ## Uso diário
 
-1. Inicie o LuizBot e confirme os status de Discord e Gmail no painel.
+1. Inicie o Catador de Comprovantes e confirme os status de Discord e Gmail no painel.
 2. Confirme que o bot externo publicou o pedido no canal de filas.
 3. O cliente envia `pg Nome Sobrenome` ou `pago Nome Sobrenome` no mesmo canal.
-4. LuizBot responde que esta verificando e, se o comprovante for valido, envia o comando configurado e informa o valor validado.
+4. O Catador de Comprovantes responde que esta verificando e, se o comprovante for valido, envia o comando configurado e informa o valor validado.
 5. A secao **Eventos recentes** no painel mostra registros de conexao, pedidos salvos, recusas e erros.
 
 O bot busca o pedido pendente mais recente para o nome, dentro do mesmo canal. Se houver clientes com nomes iguais, evite manter pedidos simultaneos para eles ou confirme cuidadosamente a fila antes do comando.
@@ -137,7 +137,7 @@ O bot busca o pedido pendente mais recente para o nome, dentro do mesmo canal. S
 
 - O painel nao possui login. Acesse apenas por `localhost`; nao exponha a porta para a rede.
 - `ID do administrador` ainda nao e um controle de acesso.
-- LuizBot envia apenas o comando configurado. Ele nao cria canais ou salas de Free Fire.
+- O Catador de Comprovantes envia apenas o comando configurado. Ele nao cria canais ou salas de Free Fire.
 - A extracao atual escolhe o maior valor monetario encontrado no comprovante. Comprovantes que mostram saldo, tarifa e valor da transferencia precisam ser testados antes do uso em producao.
 - Se o envio do comando Discord falhar depois de consumir o comprovante, ele continuara marcado como usado. Consulte os eventos antes de tentar novamente.
 

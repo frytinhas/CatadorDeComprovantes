@@ -59,7 +59,7 @@ app.get('/api/gmail/auth-url', (req, res) => {
 app.get('/api/gmail/callback', async (req, res) => {
   try {
     await gmail.handleCallback(loadConfig(db), req.query.code, `${req.protocol}://${req.get('host')}/api/gmail/callback`);
-    res.send('<h1>Gmail conectado</h1><p>Você já pode voltar ao painel do LuizBot.</p>');
+    res.send('<h1>Gmail conectado</h1><p>Você já pode voltar ao painel do Catador de Comprovantes.</p>');
   } catch (error) {
     res.status(400).send(`<h1>Erro ao conectar Gmail</h1><pre>${escapeHtml(error.message)}</pre>`);
   }

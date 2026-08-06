@@ -4,7 +4,7 @@ const Database = require('better-sqlite3');
 
 function initDb(dataDir) {
   fs.mkdirSync(dataDir, { recursive: true });
-  const db = new Database(path.join(dataDir, 'luizbot.sqlite'));
+  const db = new Database(path.join(dataDir, 'catador-de-comprovantes.sqlite'));
   db.pragma('journal_mode = WAL');
 
   db.exec(`

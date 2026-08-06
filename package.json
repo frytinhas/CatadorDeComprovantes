@@ -1,5 +1,5 @@
 {
-  "name": "luizbot",
+  "name": "catador-de-comprovantes",
   "version": "1.0.0",
   "description": "Bot local Discord + Gmail para validar comprovantes Pix e disparar .cs.",
   "main": "src/index.js",

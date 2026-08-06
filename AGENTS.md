@@ -2,12 +2,12 @@
 
 ## Visao geral
 
-Este repositorio contem o LuizBot, uma aplicacao local em Node.js para integrar Discord e Gmail. O processo principal e:
+Este repositorio contem o Catador de Comprovantes, uma aplicacao local em Node.js para integrar Discord e Gmail. O processo principal e:
 
 1. Um bot externo publica no canal de filas um pedido com nome, valor esperado e chave Pix do mediador.
-2. O LuizBot captura essa mensagem e grava o pedido como pendente em SQLite.
+2. O Catador de Comprovantes captura essa mensagem e grava o pedido como pendente em SQLite.
 3. O cliente envia `pg Nome Sobrenome` ou `pago Nome Sobrenome` no mesmo canal.
-4. O LuizBot procura no Gmail um comprovante recente.
+4. O Catador de Comprovantes procura no Gmail um comprovante recente.
 5. Se nome, Pix e valor forem compatíveis, o comprovante e marcado como usado e o bot envia `.cs` no canal.
 
 O projeto foi desenhado para rodar no computador do cliente, com um painel web local em `http://localhost:3000`. Nao existe backend remoto, banco externo ou hospedagem obrigatoria.
@@ -79,7 +79,7 @@ Essa e uma decisao deliberada do escopo atual: o fluxo original foi interpretado
 
 ### Gmail
 
-O acesso usa OAuth 2.0 com escopo `gmail.readonly`. O LuizBot nao envia, apaga, move nem modifica emails.
+O acesso usa OAuth 2.0 com escopo `gmail.readonly`. O Catador de Comprovantes nao envia, apaga, move nem modifica emails.
 
 A busca considera somente emails dentro de `receiptWindowHours`, padrao de 24 horas. Um comprovante valido precisa:
 
@@ -98,7 +98,7 @@ O melhor candidato e o email valido mais recente. A extracao de valor atualmente
 
 ### Persistencia
 
-`src/lib/db.js` cria `data/luizbot.sqlite` e habilita WAL. As tabelas sao:
+`src/lib/db.js` cria `data/catador-de-comprovantes.sqlite` e habilita WAL. As tabelas sao:
 
 - `settings`: configuracao JSON e tokens OAuth.
 - `orders`: pedidos extraidos do bot externo.
@@ -332,4 +332,4 @@ Com o servidor rodando, verificar `GET /api/status`, abrir o painel, salvar uma 
 - `src/lib/orders.js`: regexes, pedidos e comandos `pg`/`pago`.
 - `src/lib/normalize.js`: normalizacao e dinheiro.
 - `public/`: painel administrativo local.
-- `data/luizbot.sqlite`: dados locais gerados em runtime; nao versionar.
+- `data/catador-de-comprovantes.sqlite`: dados locais gerados em runtime; nao versionar.
